@@ -36,7 +36,113 @@ document.addEventListener("DOMContentLoaded", function () {
       });
       panier.appendChild(div);
     }
+    const form = document.createElement("form");
+
+    const email = document.createElement("input");
+    email.placeholder = "email";
+    const name = document.createElement("input");
+    name.placeholder = "name";
+    const address = document.createElement("input");
+    address.placeholder = "address";
+
+    email.classList.add(
+        "appearance-none",
+        "block",
+        "w-full",
+        "px-3",
+        "py-2",
+        "border",
+        "border-gray-300",
+        "rounded-md",
+        "shadow-sm",
+        "placeholder-gray-400",
+        "focus:outline-none",
+        "focus:ring-indigo-500",
+        "focus:border-indigo-500",
+        "sm:text-sm"
+    );
+
+    name.classList.add(
+        "appearance-none",
+        "block",
+        "w-full",
+        "px-3",
+        "py-2",
+        "border",
+        "border-gray-300",
+        "rounded-md",
+        "shadow-sm",
+        "placeholder-gray-400",
+        "focus:outline-none",
+        "focus:ring-indigo-500",
+        "focus:border-indigo-500",
+        "sm:text-sm"
+    );
+
+    address.classList.add(
+        "appearance-none",
+        "block",
+        "w-full",
+        "px-3",
+        "py-2",
+        "border",
+        "border-gray-300",
+        "rounded-md",
+        "shadow-sm",
+        "placeholder-gray-400",
+        "focus:outline-none",
+        "focus:ring-indigo-500",
+        "focus:border-indigo-500",
+        "sm:text-sm"
+    );
+
+    form.appendChild(email);
+    form.appendChild(name);
+    form.appendChild(address);
+
+    form.addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      const transformedCart = cart.reduce((acc, item) => {
+        // Find the item in the accumulator array
+        const foundItem = acc.find((i) => i.id === item.id);
+
+        if (foundItem) {
+          // If the item is already in the accumulator, increment its amount
+          foundItem.amount++;
+        } else {
+          // If the item is not in the accumulator, add it with an amount of 1
+          acc.push({ id: item.id, amount: 1 });
+        }
+
+        return acc;
+      }, []);
+
+      
+      const order = {
+        email: email.value,
+        name: name.value,
+        address: address.value,
+        cart: transformedCart,
+      };
+      
+      console.log(order);
+
+      await axios
+        .post(`${apiUrl}/order/`, order)
+        .then((response) => {
+          console.log(response);
+          alert("Order has been placed.");
+          localStorage.removeItem("cart");
+          window.location.reload();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+
     const command = document.createElement("button");
+    command.type = "submit";
     command.classList.add(
       "bg-blue-500",
       "hover:bg-blue-700",
@@ -49,7 +155,8 @@ document.addEventListener("DOMContentLoaded", function () {
     );
     command.innerHTML = "Commander";
 
-    panier.appendChild(command);
+    form.appendChild(command);
+    panier.appendChild(form);
 
     const clear = document.createElement("button");
     clear.classList.add(

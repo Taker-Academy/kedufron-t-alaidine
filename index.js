@@ -44,14 +44,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 price: items[item].price,
               };
 
-              // Get the current cart from localStorage
+              // Obtain l'état actuel du panier
               let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-              // Add the new item to the cart
+              // Ajouter l'article au panier
               cart.push(cartItem);
 
 
-              // Save the updated cart back to localStorage
+              // Sauvegarder le panier
               localStorage.setItem("cart", JSON.stringify(cart));
 
               alert("Item has been added to the cart.");

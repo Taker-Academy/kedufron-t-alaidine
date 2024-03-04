@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
         div.querySelector("button").addEventListener("click", function (event) {
           event.preventDefault();
 
-          // Create a cart item
+          // Céer un item de panier
           const cartItem = {
             id: itemId,
             name: item.name,
